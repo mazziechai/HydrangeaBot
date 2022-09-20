@@ -57,8 +57,8 @@ class CharacterCog(commands.Cog):
         ).save()
 
         await ctx.respond(
-            f"Created a new schema `{name}`!"
-            f"You can view the schema with `/schema view {name}."
+            f"Created a new schema `{name}`!\n"
+            f"You can view the schema with `/schema view {name}`."
         )
 
 

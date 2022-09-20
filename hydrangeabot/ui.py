@@ -17,7 +17,7 @@ class CharacterCreationModal(discord.ui.Modal):
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.send_message(
-            content=f"Created a new character named {self.children[0].value}!"
+            content=f"Created a new character named {self.children[0].value}!\n"
             "Use the commands under `/character field` to manage properties of your character.",
             ephemeral=True,
         )
