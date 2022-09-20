@@ -37,6 +37,7 @@ class HydrangeaBot(discord.Bot):
             self.log.exception(
                 f"Exception from {ctx.command.qualified_name}!\n"
                 f"{''.join(traceback.format_exception(type(error), error, error.__traceback__))}"
+                f"Error ID: {error_id}"
             )
 
             await ctx.respond(
