@@ -44,14 +44,13 @@ def main():
     # Initialize database
     mongoengine.connect(host=DB_CONNECTION_STRING)
 
-    # Actually logging in to Discord and starting the bot
-    log.info("Logging in...")
-
+    # Actually starting the bot and logging into Discord
     bot = HydrangeaBot(
         activity=discord.Activity(type=discord.ActivityType.listening, name="/help"),
         debug_guilds=TEST_SERVERS,
     )
 
+    log.info("Logging in...")
     bot.run(TOKEN, reconnect=True)
 
 

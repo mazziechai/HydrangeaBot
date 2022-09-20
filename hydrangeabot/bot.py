@@ -3,8 +3,9 @@ import traceback
 import uuid
 
 import discord
+from discord.ext import commands
 
-from .db import Users
+from .db import User
 
 
 class HydrangeaBot(discord.Bot):
@@ -14,7 +15,7 @@ class HydrangeaBot(discord.Bot):
         self.log = logging.getLogger("hydrangeabot")
 
         # Loading every cog in the cogs folder
-        cogs = ["roll"]
+        cogs = ["roll", "character"]
 
         for cog in cogs:
             self.load_extensions(f"hydrangeabot.cogs.{cog}")
@@ -24,14 +25,19 @@ class HydrangeaBot(discord.Bot):
 
     async def on_application_command(self, ctx: discord.ApplicationContext):
         # Create a new User for first time command runners.
-        if Users.objects(snowflake=ctx.user.id).count() == 0:  # type: ignore
-            Users(snowflake=ctx.user.id).save()
+        if User.objects(snowflake=ctx.user.id).first() is None:  # type: ignore
+            User(snowflake=ctx.user.id).save()
 
     async def on_application_command_error(
         self, ctx: discord.ApplicationContext, error
     ):
-        # Prints traceback info to the user.
-        if isinstance(error, discord.ApplicationCommandError):
+        if isinstance(error, commands.PrivateMessageOnly):
+            await ctx.respond(
+                "This command can only be used in a DM with the bot.", ephemeral=True
+            )
+
+        # Lets us know if it's an invoke error with an error ID.
+        if isinstance(error, discord.ApplicationCommandInvokeError):
             error_id = uuid.uuid4()
 
             self.log.exception(
