@@ -32,12 +32,11 @@ class RollCog(commands.Cog):
         self,
         ctx: ApplicationContext,
         name: Option(str, "The name of the macro."),  # type: ignore
-        *,
         macro: Option(str, "The roll to make when using this macro."),  # type: ignore
     ):
         # Test the macro if it's a valid roll
         try:
-            xdice.Dice.parse(macro)
+            xdice.Pattern.compile(macro)
         except Exception:
             await ctx.respond("That is not a valid dice roll!", ephemeral=True)
             return
