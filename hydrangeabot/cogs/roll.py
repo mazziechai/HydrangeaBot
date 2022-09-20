@@ -36,7 +36,7 @@ class RollCog(commands.Cog):
     ):
         # Test the macro if it's a valid roll
         try:
-            xdice.Pattern.compile(macro)
+            xdice.compile(macro)
         except Exception:
             await ctx.respond("That is not a valid dice roll!", ephemeral=True)
             return
